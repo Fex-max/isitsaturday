@@ -14,11 +14,18 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            flex-direction: column;
             transition: background-color 0.5s ease;
         }
         .message {
             font-size: 2rem;
             color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            margin-top: 20px;
+            cursor: pointer;
         }
         /* Saturday-specific styles */
         body.saturday {
@@ -50,7 +57,7 @@
             position: absolute;
             border-radius: 50%;
             background: radial-gradient(circle, #ffcc00, transparent);
-            animation: firework 1s ease-out forwards;
+            animation: firework 2s ease-out forwards;
         }
 
         @keyframes firework {
@@ -68,41 +75,54 @@
 <body>
     <h1 class="message"></h1>
     <div class="fireworks"></div>
+    <button id="simulateSaturday" style="display: none;" onclick="simulateSaturday()">Try Saturday</button>
 
     <script>
         const today = new Date();
-        const day = 6; // Force it to be Saturday for testing, change back to today.getDay() for real use
+        const day = today.getDay(); // Use today's date
         const message = document.querySelector('.message');
         const body = document.querySelector('body');
+        const simulateButton = document.getElementById('simulateSaturday');
 
+        // Check if today is Saturday
         if (day === 6) {
+            showSaturday();
+        } else {
+            message.innerText = "नहीं, शनिवार नहीं है।";
+            simulateButton.style.display = 'block'; // Show the button to simulate Saturday
+        }
+
+        function showSaturday() {
             message.innerText = "हाँ, शनिवार है!";
             message.classList.add('saturday');
             body.classList.add('saturday');
 
             // Repeated fireworks
             setInterval(() => {
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 5; i++) {
                     createFirework();
                 }
             }, 0500); // Fireworks every 2 seconds
+        }
 
-            function createFirework() {
-                const firework = document.createElement('div');
-                firework.className = 'firework';
-                firework.style.width = firework.style.height = `${Math.random() * 50 + 50}px`;
-                firework.style.top = `${Math.random() * 100}vh`;
-                firework.style.left = `${Math.random() * 100}vw`;
-                document.querySelector('.fireworks').appendChild(firework);
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.width = firework.style.height = `${Math.random() * 50 + 50}px`;
+            firework.style.top = `${Math.random() * 100}vh`;
+            firework.style.left = `${Math.random() * 100}vw`;
+            document.querySelector('.fireworks').appendChild(firework);
 
-                setTimeout(() => {
-                    firework.remove();
-                }, 2000);
-            }
-        } else {
-            message.innerText = "नहीं, शनिवार नहीं है।";
+            setTimeout(() => {
+                firework.remove();
+            }, 2000);
+        }
+
+        // Simulate Saturday
+        function simulateSaturday() {
+            showSaturday();
+            simulateButton.style.display = 'none'; // Hide the button after switching to Saturday mode
         }
     </script>
 </body>
 </html>
-

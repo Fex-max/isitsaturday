@@ -5,22 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>क्या शनिवार है?</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
-        .message { font-size: 2rem; color: #333; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: background-color 0.5s ease;
+        }
+        .message {
+            font-size: 2rem;
+            color: #333;
+        }
+        /* Saturday-specific styles */
+        body.saturday {
+            background-color: #ffeb3b;
+        }
+        .message.saturday {
+            font-size: 3rem;
+            color: #4caf50;
+            animation: pulse 0.3333s infinite;
+        }
+        /* Pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Fireworks styles */
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .firework {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffcc00, transparent);
+            animation: firework 1s ease-out forwards;
+        }
+
+        @keyframes firework {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
     <h1 class="message"></h1>
+    <div class="fireworks"></div>
 
     <script>
         const today = new Date();
-        const day = today.getDay();
+        const day = 6; // Force it to be Saturday for testing, change back to today.getDay() for real use
         const message = document.querySelector('.message');
+        const body = document.querySelector('body');
+
         if (day === 6) {
-            message.innerText = "हाँ, आज शनिवार है!";
+            message.innerText = "हाँ, शनिवार है!";
+            message.classList.add('saturday');
+            body.classList.add('saturday');
+
+            // Repeated fireworks
+            setInterval(() => {
+                for (let i = 0; i < 10; i++) {
+                    createFirework();
+                }
+            }, 0500); // Fireworks every 2 seconds
+
+            function createFirework() {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.width = firework.style.height = `${Math.random() * 50 + 50}px`;
+                firework.style.top = `${Math.random() * 100}vh`;
+                firework.style.left = `${Math.random() * 100}vw`;
+                document.querySelector('.fireworks').appendChild(firework);
+
+                setTimeout(() => {
+                    firework.remove();
+                }, 2000);
+            }
         } else {
-            message.innerText = "नहीं, आज शनिवार नहीं है।";
+            message.innerText = "नहीं, शनिवार नहीं है।";
         }
     </script>
 </body>
 </html>
+

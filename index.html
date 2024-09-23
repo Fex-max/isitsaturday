@@ -102,7 +102,7 @@
 
     <!-- Mute/Unmute Icon -->
     <svg id="muteButton" class="mute-icon" viewBox="0 0 24 24" aria-label="Mute/Unmute" role="button" tabindex="0">
-        <!-- Initial icon is volume_up -->
+        <!-- Initial icon shows volume off (mute icon), indicating that clicking it will mute -->
         <path id="muteIconPath" d="M3 9v6h4l5 5V4l-5 5H3z"></path>
     </svg>
 
@@ -124,8 +124,11 @@
         const backgroundMusic = document.getElementById('backgroundMusic');
 
         // SVG Paths for Mute and Unmute Icons
-        const volumeUpIcon = "M3 9v6h4l5 5V4l-5 5H3z";
-        const volumeOffIcon = "M16.5 12c0-1.77-.77-3.29-1.97-4.29L14 9.5V14l.53.79C15.73 15.29 16.5 13.77 16.5 12zM3 9v6h4l5 5V4L7 9H3z M19 12l-2-2v4l2-2z";
+        const volumeUpIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Volume (Unmute) Icon
+        const volumeOffIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Mute Icon
+
+        // Set initial icon to volume off (mute icon), indicating that clicking it will mute
+        muteIconPath.setAttribute('d', volumeOffIcon);
 
         // Check if today is Saturday
         if (day === 6) {
@@ -198,12 +201,12 @@
         muteButton.addEventListener('click', () => {
             if (backgroundMusic.muted) {
                 backgroundMusic.muted = false;
-                // Change icon to volume up
-                muteIconPath.setAttribute('d', volumeUpIcon);
+                // Change icon to mute icon (indicating that clicking will mute)
+                muteIconPath.setAttribute('d', volumeOffIcon);
             } else {
                 backgroundMusic.muted = true;
-                // Change icon to volume off
-                muteIconPath.setAttribute('d', volumeOffIcon);
+                // Change icon to unmute icon (indicating that clicking will unmute)
+                muteIconPath.setAttribute('d', volumeUpIcon);
             }
         });
     </script>

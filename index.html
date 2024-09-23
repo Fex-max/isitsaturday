@@ -25,6 +25,7 @@
             text-align: center;
             flex-direction: column;
             transition: background-color 0.5s ease;
+            position: relative; /* Added for positioning the mute icon */
         }
         .message {
             font-size: 2rem;
@@ -77,6 +78,20 @@
                 opacity: 0;
             }
         }
+        /* Mute/Unmute Icon Styles */
+        .mute-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            fill: #333;
+            transition: fill 0.3s;
+        }
+        .mute-icon:hover {
+            fill: #666;
+        }
     </style>
 </head>
 <body>
@@ -84,12 +99,16 @@
     <div class="fireworks"></div>
     <button id="simulateSaturday" style="display: none;" onclick="simulateSaturday()">शनिवार आज़माएं</button>
     <button id="shareButton">इस साइट को साझा करें</button>
-    <button id="muteButton">म्यूट करें</button>
+
+    <!-- Mute/Unmute Icon -->
+    <svg id="muteButton" class="mute-icon" viewBox="0 0 24 24" aria-label="Mute/Unmute" role="button" tabindex="0">
+        <!-- Initial icon is volume_up -->
+        <path id="muteIconPath" d="M3 10v4h4l5 5V5l-5 5H3z"></path>
+    </svg>
 
     <!-- Audio Element -->
-    <audio id="backgroundMusic" autoplay loop>
-        <source src="background.mp3" type="audio/mpeg">
-        <!-- You can include more sources for different audio formats if needed -->
+    <audio id="backgroundMusic" loop>
+        <source src="your-music-file.mp3" type="audio/mpeg">
         आपका ब्राउज़र ऑडियो तत्व का समर्थन नहीं करता है।
     </audio>
 
@@ -101,7 +120,12 @@
         const simulateButton = document.getElementById('simulateSaturday');
         const shareButton = document.getElementById('shareButton');
         const muteButton = document.getElementById('muteButton');
+        const muteIconPath = document.getElementById('muteIconPath');
         const backgroundMusic = document.getElementById('backgroundMusic');
+
+        // SVG Paths for Mute and Unmute Icons
+        const volumeUpIcon = "M3 9v6h4l5 5V4l-5 5H3z";
+        const volumeOffIcon = "M16.5 12c0-1.77-.77-3.29-1.97-4.29L14 9.5V14l.53.79C15.73 15.29 16.5 13.77 16.5 12zM3 9v6h4l5 5V4L7 9H3z M19 12l-2-2v4l2-2z";
 
         // Check if today is Saturday
         if (day === 6) {
@@ -115,6 +139,9 @@
             message.innerText = "हाँ, शनिवार है!";
             message.classList.add('saturday');
             body.classList.add('saturday');
+
+            // Play music
+            backgroundMusic.play();
 
             // Repeated fireworks
             setInterval(() => {
@@ -163,16 +190,20 @@
         muteButton.addEventListener('click', () => {
             if (backgroundMusic.muted) {
                 backgroundMusic.muted = false;
-                muteButton.innerText = 'म्यूट करें';
+                // Change icon to volume up
+                muteIconPath.setAttribute('d', volumeUpIcon);
             } else {
                 backgroundMusic.muted = true;
-                muteButton.innerText = 'अनम्यूट करें';
+                // Change icon to volume off
+                muteIconPath.setAttribute('d', volumeOffIcon);
             }
         });
 
-        // Start music automatically
+        // Start music when Saturday is shown
         window.addEventListener('load', () => {
-            backgroundMusic.play();
+            if (day === 6) {
+                backgroundMusic.play();
+            }
         });
     </script>
 </body>

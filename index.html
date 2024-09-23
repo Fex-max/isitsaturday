@@ -103,7 +103,7 @@
     <!-- Mute/Unmute Icon -->
     <svg id="muteButton" class="mute-icon" viewBox="0 0 24 24" aria-label="Mute/Unmute" role="button" tabindex="0">
         <!-- Initial icon is volume_up -->
-        <path id="muteIconPath" d="M3 10v4h4l5 5V5l-5 5H3z"></path>
+        <path id="muteIconPath" d="M3 9v6h4l5 5V4l-5 5H3z"></path>
     </svg>
 
     <!-- Audio Element -->
@@ -129,19 +129,20 @@
 
         // Check if today is Saturday
         if (day === 6) {
-            showSaturday();
+            message.innerText = "हाँ, शनिवार है!";
+            simulateButton.style.display = 'none';
+            showSaturday(); // Start the Saturday celebration
         } else {
             message.innerText = "नहीं, शनिवार नहीं है।";
             simulateButton.style.display = 'block'; // Show the button to simulate Saturday
         }
 
         function showSaturday() {
-            message.innerText = "हाँ, शनिवार है!";
             message.classList.add('saturday');
             body.classList.add('saturday');
 
-            // Play music
-            backgroundMusic.play();
+            // Play music after user interaction
+            document.body.addEventListener('click', playMusicOnce, { once: true });
 
             // Repeated fireworks
             setInterval(() => {
@@ -149,6 +150,12 @@
                     createFirework();
                 }
             }, 500); // Fireworks every half-second
+        }
+
+        function playMusicOnce() {
+            backgroundMusic.play().catch(error => {
+                console.log('Playback error:', error);
+            });
         }
 
         function createFirework() {
@@ -166,8 +173,9 @@
 
         // Simulate Saturday
         function simulateSaturday() {
-            showSaturday();
+            message.innerText = "हाँ, शनिवार है!";
             simulateButton.style.display = 'none'; // Hide the button after switching to Saturday mode
+            showSaturday();
         }
 
         // Share functionality
@@ -196,13 +204,6 @@
                 backgroundMusic.muted = true;
                 // Change icon to volume off
                 muteIconPath.setAttribute('d', volumeOffIcon);
-            }
-        });
-
-        // Start music when Saturday is shown
-        window.addEventListener('load', () => {
-            if (day === 6) {
-                backgroundMusic.play();
             }
         });
     </script>

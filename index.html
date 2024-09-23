@@ -2,13 +2,13 @@
 <html lang="hi">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LS4D1GX29V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-LS4D1GX29V');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LS4D1GX29V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-LS4D1GX29V');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>क्या शनिवार है?</title>
@@ -51,7 +51,6 @@
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
-
         /* Fireworks styles */
         .fireworks {
             position: fixed;
@@ -68,7 +67,6 @@
             background: radial-gradient(circle, #ffcc00, transparent);
             animation: firework 2s ease-out forwards;
         }
-
         @keyframes firework {
             0% {
                 transform: scale(0);
@@ -79,12 +77,14 @@
                 opacity: 0;
             }
         }
+        /* Removed custom styles for the share button */
     </style>
 </head>
 <body>
     <h1 class="message"></h1>
     <div class="fireworks"></div>
     <button id="simulateSaturday" style="display: none;" onclick="simulateSaturday()">शनिवार आज़माएं</button>
+    <button id="shareButton">इस साइट को साझा करें</button>
 
     <script>
         const today = new Date();
@@ -92,6 +92,7 @@
         const message = document.querySelector('.message');
         const body = document.querySelector('body');
         const simulateButton = document.getElementById('simulateSaturday');
+        const shareButton = document.getElementById('shareButton');
 
         // Check if today is Saturday
         if (day === 6) {
@@ -111,7 +112,7 @@
                 for (let i = 0; i < 5; i++) {
                     createFirework();
                 }
-            }, 0500); // Fireworks every 2 seconds
+            }, 500); // Fireworks every half-second
         }
 
         function createFirework() {
@@ -132,6 +133,22 @@
             showSaturday();
             simulateButton.style.display = 'none'; // Hide the button after switching to Saturday mode
         }
+
+        // Share functionality
+        shareButton.addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'क्या शनिवार है?',
+                    text: 'देखें कि आज शनिवार है या नहीं!',
+                    url: window.location.href
+                })
+                .then(() => console.log('Successful share'))
+                .catch((error) => console.log('Error sharing:', error));
+            } else {
+                // Fallback for browsers that do not support the Web Share API
+                alert('आपका ब्राउज़र इस फ़ंक्शन का समर्थन नहीं करता है। कृपया URL को मैन्युअल रूप से कॉपी करें।');
+            }
+        });
     </script>
 </body>
 </html>

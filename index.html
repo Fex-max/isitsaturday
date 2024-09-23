@@ -77,7 +77,6 @@
                 opacity: 0;
             }
         }
-        /* Removed custom styles for the share button */
     </style>
 </head>
 <body>
@@ -85,6 +84,14 @@
     <div class="fireworks"></div>
     <button id="simulateSaturday" style="display: none;" onclick="simulateSaturday()">शनिवार आज़माएं</button>
     <button id="shareButton">इस साइट को साझा करें</button>
+    <button id="muteButton">म्यूट करें</button>
+
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" autoplay loop>
+        <source src="your-music-file.mp3" type="audio/mpeg">
+        <!-- You can include more sources for different audio formats if needed -->
+        आपका ब्राउज़र ऑडियो तत्व का समर्थन नहीं करता है।
+    </audio>
 
     <script>
         const today = new Date();
@@ -93,6 +100,8 @@
         const body = document.querySelector('body');
         const simulateButton = document.getElementById('simulateSaturday');
         const shareButton = document.getElementById('shareButton');
+        const muteButton = document.getElementById('muteButton');
+        const backgroundMusic = document.getElementById('backgroundMusic');
 
         // Check if today is Saturday
         if (day === 6) {
@@ -148,6 +157,22 @@
                 // Fallback for browsers that do not support the Web Share API
                 alert('आपका ब्राउज़र इस फ़ंक्शन का समर्थन नहीं करता है। कृपया URL को मैन्युअल रूप से कॉपी करें।');
             }
+        });
+
+        // Mute/Unmute functionality
+        muteButton.addEventListener('click', () => {
+            if (backgroundMusic.muted) {
+                backgroundMusic.muted = false;
+                muteButton.innerText = 'म्यूट करें';
+            } else {
+                backgroundMusic.muted = true;
+                muteButton.innerText = 'अनम्यूट करें';
+            }
+        });
+
+        // Start music automatically
+        window.addEventListener('load', () => {
+            backgroundMusic.play();
         });
     </script>
 </body>

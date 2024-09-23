@@ -108,7 +108,7 @@
 
     <!-- Audio Element -->
     <audio id="backgroundMusic" loop>
-        <source src="background.mp3" type="audio/mpeg">
+        <source src="your-music-file.mp3" type="audio/mpeg">
         आपका ब्राउज़र ऑडियो तत्व का समर्थन नहीं करता है।
     </audio>
 
@@ -130,6 +130,9 @@
         // Set initial icon to represent current state (unmuted)
         muteIconPath.setAttribute('d', volumeUpIcon);
 
+        // Flag to check if Saturday is simulated
+        let isSimulated = false;
+
         // Check if today is Saturday
         if (day === 6) {
             message.innerText = "हाँ, शनिवार है!";
@@ -144,8 +147,13 @@
             message.classList.add('saturday');
             body.classList.add('saturday');
 
-            // Play music after user interaction
-            document.body.addEventListener('click', playMusicOnce, { once: true });
+            if (isSimulated) {
+                // Start music immediately when simulating Saturday
+                playMusicOnce();
+            } else {
+                // Play music after user interaction on actual Saturday
+                document.body.addEventListener('click', playMusicOnce, { once: true });
+            }
 
             // Repeated fireworks
             setInterval(() => {
@@ -180,6 +188,7 @@
         function simulateSaturday() {
             message.innerText = "हाँ, शनिवार है!";
             simulateButton.style.display = 'none'; // Hide the button after switching to Saturday mode
+            isSimulated = true; // Set the flag to indicate Saturday is simulated
             showSaturday();
         }
 

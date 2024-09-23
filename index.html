@@ -25,7 +25,7 @@
             text-align: center;
             flex-direction: column;
             transition: background-color 0.5s ease;
-            position: relative; /* Added for positioning the mute icon */
+            position: relative; /* For positioning the mute icon */
         }
         .message {
             font-size: 2rem;
@@ -102,13 +102,13 @@
 
     <!-- Mute/Unmute Icon -->
     <svg id="muteButton" class="mute-icon" viewBox="0 0 24 24" aria-label="Mute/Unmute" role="button" tabindex="0">
-        <!-- Initial icon shows volume off (mute icon), indicating that clicking it will mute -->
+        <!-- Initial icon shows volume up (unmuted state) -->
         <path id="muteIconPath" d="M3 9v6h4l5 5V4l-5 5H3z"></path>
     </svg>
 
     <!-- Audio Element -->
     <audio id="backgroundMusic" loop>
-        <source src="background.mp3" type="audio/mpeg">
+        <source src="your-music-file.mp3" type="audio/mpeg">
         आपका ब्राउज़र ऑडियो तत्व का समर्थन नहीं करता है।
     </audio>
 
@@ -123,12 +123,12 @@
         const muteIconPath = document.getElementById('muteIconPath');
         const backgroundMusic = document.getElementById('backgroundMusic');
 
-        // SVG Paths for Mute and Unmute Icons
-        const volumeUpIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Volume (Unmute) Icon
-        const volumeOffIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Mute Icon
+        // SVG Paths for Unmute and Mute Icons
+        const volumeUpIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Volume (Unmuted) Icon
+        const volumeOffIcon = "M12 4.44L9.94 6.5 12 8.56V4.44M3 9v6h4l5 5V4L7 9H3m13.5 3c0-1.77-.77-3.29-1.97-4.29L14 9.5v5l.53.79C15.73 15.29 16.5 13.77 16.5 12z"; // Mute Icon
 
-        // Set initial icon to volume off (mute icon), indicating that clicking it will mute
-        muteIconPath.setAttribute('d', volumeOffIcon);
+        // Set initial icon to represent current state (unmuted)
+        muteIconPath.setAttribute('d', volumeUpIcon);
 
         // Check if today is Saturday
         if (day === 6) {
@@ -156,6 +156,8 @@
         }
 
         function playMusicOnce() {
+            // Set the starting time to 4.5 seconds
+            backgroundMusic.currentTime = 4.5;
             backgroundMusic.play().catch(error => {
                 console.log('Playback error:', error);
             });
@@ -201,12 +203,12 @@
         muteButton.addEventListener('click', () => {
             if (backgroundMusic.muted) {
                 backgroundMusic.muted = false;
-                // Change icon to mute icon (indicating that clicking will mute)
-                muteIconPath.setAttribute('d', volumeOffIcon);
+                // Change icon to unmuted icon (volume up) to represent current state
+                muteIconPath.setAttribute('d', volumeUpIcon);
             } else {
                 backgroundMusic.muted = true;
-                // Change icon to unmute icon (indicating that clicking will unmute)
-                muteIconPath.setAttribute('d', volumeUpIcon);
+                // Change icon to muted icon (volume off) to represent current state
+                muteIconPath.setAttribute('d', volumeOffIcon);
             }
         });
     </script>

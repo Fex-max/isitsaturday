@@ -108,7 +108,7 @@
 
     <!-- Audio Element -->
     <audio id="backgroundMusic" loop>
-        <source src="background.mp3" type="audio/mpeg">
+        <source src="your-music-file.mp3" type="audio/mpeg">
         आपका ब्राउज़र ऑडियो तत्व का समर्थन नहीं करता है।
     </audio>
 
@@ -192,7 +192,7 @@
             showSaturday();
         }
 
-        // Share functionality
+        // Share functionality with Google Analytics event tracking
         shareButton.addEventListener('click', () => {
             if (navigator.share) {
                 navigator.share({
@@ -200,7 +200,15 @@
                     text: 'देखें कि आज शनिवार है या नहीं!',
                     url: window.location.href
                 })
-                .then(() => console.log('Successful share'))
+                .then(() => {
+                    console.log('Successful share');
+                    // Send event to Google Analytics
+                    gtag('event', 'share_click', {
+                        'event_category': 'engagement',
+                        'event_label': 'Share Button',
+                        'value': 1
+                    });
+                })
                 .catch((error) => console.log('Error sharing:', error));
             } else {
                 // Fallback for browsers that do not support the Web Share API

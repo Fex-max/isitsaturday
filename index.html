@@ -102,7 +102,7 @@
 
     <!-- Mute/Unmute Icon -->
     <svg id="muteButton" class="mute-icon" viewBox="0 0 24 24" aria-label="Mute/Unmute" role="button" tabindex="0">
-        <!-- Initial icon shows volume up (unmuted state) -->
+        <!-- Initial icon shows unmute icon (music is playing) -->
         <path id="muteIconPath" d="M3 9v6h4l5 5V4l-5 5H3z"></path>
     </svg>
 
@@ -123,12 +123,12 @@
         const muteIconPath = document.getElementById('muteIconPath');
         const backgroundMusic = document.getElementById('backgroundMusic');
 
-        // SVG Paths for Unmute and Mute Icons
-        const volumeUpIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Volume (Unmuted) Icon
-        const volumeOffIcon = "M12 4.44L9.94 6.5 12 8.56V4.44M3 9v6h4l5 5V4L7 9H3m13.5 3c0-1.77-.77-3.29-1.97-4.29L14 9.5v5l.53.79C15.73 15.29 16.5 13.77 16.5 12z"; // Mute Icon
+        // SVG Paths for Mute and Unmute Icons
+        const muteIcon = "M12 4.44L9.94 6.5L12 8.56V4.44M3 9v6h4l5 5V4L7 9H3z"; // Mute Icon
+        const unmuteIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Unmute Icon
 
         // Set initial icon to represent current state (unmuted)
-        muteIconPath.setAttribute('d', volumeUpIcon);
+        muteIconPath.setAttribute('d', unmuteIcon);
 
         // Flag to check if Saturday is simulated
         let isSimulated = false;
@@ -220,12 +220,12 @@
         muteButton.addEventListener('click', () => {
             if (backgroundMusic.muted) {
                 backgroundMusic.muted = false;
-                // Change icon to unmuted icon (volume up) to represent current state
-                muteIconPath.setAttribute('d', volumeUpIcon);
+                // Change icon to unmute icon (music is playing)
+                muteIconPath.setAttribute('d', unmuteIcon);
             } else {
                 backgroundMusic.muted = true;
-                // Change icon to muted icon (volume off) to represent current state
-                muteIconPath.setAttribute('d', volumeOffIcon);
+                // Change icon to mute icon (music is not playing)
+                muteIconPath.setAttribute('d', muteIcon);
             }
         });
     </script>

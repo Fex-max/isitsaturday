@@ -25,7 +25,7 @@
             text-align: center;
             flex-direction: column;
             transition: background-color 0.5s ease;
-            position: relative; /* For positioning the mute icon */
+            position: relative; /* For positioning elements like the mute icon */
         }
         .message {
             font-size: 2rem;
@@ -88,6 +88,7 @@
             cursor: pointer;
             fill: #333;
             transition: fill 0.3s;
+            display: none; /* Hide the mute icon by default */
         }
         .mute-icon:hover {
             fill: #666;
@@ -108,7 +109,7 @@
 
     <!-- Audio Element -->
     <audio id="backgroundMusic" loop preload="auto">
-        <source src="background.mp3" type="audio/mpeg">
+        <source src="your-music-file.mp3" type="audio/mpeg">
         आपका ब्राउज़र ऑडियो तत्व का समर्थन नहीं करता है।
     </audio>
 
@@ -141,11 +142,16 @@
         } else {
             message.innerText = "नहीं, शनिवार नहीं है।";
             simulateButton.style.display = 'block'; // Show the button to simulate Saturday
+            // Hide the mute button since it's not Saturday
+            muteButton.style.display = 'none';
         }
 
         function showSaturday() {
             message.classList.add('saturday');
             body.classList.add('saturday');
+
+            // Show the mute button when it's Saturday
+            muteButton.style.display = 'block';
 
             if (isSimulated) {
                 // Start music immediately when simulating Saturday

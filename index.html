@@ -179,7 +179,7 @@
 
             // Wait for metadata to be loaded
             backgroundMusic.addEventListener('loadedmetadata', () => {
-                backgroundMusic.currentTime = 4.5; // Set start time
+                backgroundMusic.currentTime = 0.0; // Set start time
                 backgroundMusic.muted = false;     // Unmute the music
                 backgroundMusic.play().catch(error => {
                     console.log('Playback error:', error);
@@ -189,7 +189,7 @@
             // Load the audio if not already loaded
             if (backgroundMusic.readyState >= 1) {
                 // Metadata is already loaded
-                backgroundMusic.currentTime = 4.5; // Set start time
+                backgroundMusic.currentTime = 0.0; // Set start time
                 backgroundMusic.muted = false;     // Unmute the music
                 backgroundMusic.play().catch(error => {
                     console.log('Playback error:', error);

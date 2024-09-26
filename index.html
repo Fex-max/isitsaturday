@@ -14,6 +14,7 @@
     <title>क्या शनिवार है?</title>
     <link rel="icon" href="partyb.png" type="image/png">
     <style>
+        /* Your existing CSS styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -103,8 +104,8 @@
 
     <!-- Mute/Unmute Icon -->
     <svg id="muteButton" class="mute-icon" viewBox="0 0 24 24" aria-label="Mute/Unmute" role="button" tabindex="0">
-        <!-- Initial icon shows unmute icon (music is playing) -->
-        <path id="muteIconPath" d="M3 9v6h4l5 5V4l-5 5H3z"></path>
+        <!-- Initial icon shows mute icon (music is muted) -->
+        <path id="muteIconPath" d="M12 4.44L9.94 6.5L12 8.56V4.44 M3 9v6h4l5 5V4L7 9H3z"></path>
     </svg>
 
     <!-- Audio Element -->
@@ -128,14 +129,17 @@
         const unmuteIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Unmute Icon (speaker without a slash)
         const muteIcon = "M12 4.44L9.94 6.5L12 8.56V4.44 M3 9v6h4l5 5V4L7 9H3z"; // Mute Icon (speaker with a slash)
 
-        // Set initial icon to represent the current state (unmuted)
-        muteIconPath.setAttribute('d', unmuteIcon);
+        // Set initial icon to represent the current state (muted)
+        muteIconPath.setAttribute('d', muteIcon);
 
         // Flag to check if Saturday is simulated
         let isSimulated = false;
 
         // Flag to check if music has started
         let musicStarted = false;
+
+        // Initially mute the background music
+        backgroundMusic.muted = true;
 
         // Check if today is Saturday
         if (day === 6) {
@@ -156,14 +160,8 @@
             // Show the mute button when it's Saturday
             muteButton.style.display = 'block';
 
-            if (isSimulated) {
-                // Start music immediately when simulating Saturday
-                playMusicOnce();
-            } else {
-                // Play music after user interaction on actual Saturday
-                // Include the muteButton in the event listener
-                document.addEventListener('click', playMusicOnce, { once: true });
-            }
+            // No automatic playback on Saturday
+            // User must click the mute/unmute button to start the music
 
             // Repeated fireworks
             setInterval(() => {
@@ -178,6 +176,7 @@
             musicStarted = true;
 
             console.log("playMusicOnce() called");
+            backgroundMusic.muted = false; // Unmute the music
             backgroundMusic.play().then(() => {
                 backgroundMusic.currentTime = 4.5;
             }).catch(error => {
@@ -234,18 +233,20 @@
         muteButton.addEventListener('click', () => {
             if (!musicStarted) {
                 playMusicOnce();
-            }
-
-            if (backgroundMusic.muted) {
-                // If the music is currently muted, unmute it
-                backgroundMusic.muted = false;
                 // Change icon to unmute icon (music is playing)
                 muteIconPath.setAttribute('d', unmuteIcon);
             } else {
-                // If the music is currently playing, mute it
-                backgroundMusic.muted = true;
-                // Change icon to mute icon (music is not playing)
-                muteIconPath.setAttribute('d', muteIcon);
+                if (backgroundMusic.muted) {
+                    // If the music is currently muted, unmute it
+                    backgroundMusic.muted = false;
+                    // Change icon to unmute icon (music is playing)
+                    muteIconPath.setAttribute('d', unmuteIcon);
+                } else {
+                    // If the music is currently playing, mute it
+                    backgroundMusic.muted = true;
+                    // Change icon to mute icon (music is not playing)
+                    muteIconPath.setAttribute('d', muteIcon);
+                }
             }
         });
     </script>

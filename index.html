@@ -250,18 +250,18 @@
             if (!musicStarted) {
                 playMusicOnce();
                 // Change icon to unmute icon (music is playing)
-                muteIconPath.setAttribute('d', unmuteIcon);
+                muteIconPath.setAttribute('d', muteIcon);
             } else {
                 if (backgroundMusic.muted) {
                     // If the music is currently muted, unmute it
                     backgroundMusic.muted = false;
                     // Change icon to unmute icon (music is playing)
-                    muteIconPath.setAttribute('d', unmuteIcon);
+                    muteIconPath.setAttribute('d', muteIcon);
                 } else {
                     // If the music is currently playing, mute it
                     backgroundMusic.muted = true;
                     // Change icon to mute icon (music is not playing)
-                    muteIconPath.setAttribute('d', muteIcon);
+                    muteIconPath.setAttribute('d', unmuteIcon);
                 }
             }
         });

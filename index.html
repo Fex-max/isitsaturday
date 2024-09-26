@@ -107,7 +107,7 @@
     </svg>
 
     <!-- Audio Element -->
-    <audio id="backgroundMusic" loop>
+    <audio id="backgroundMusic" loop preload="auto">
         <source src="your-music-file.mp3" type="audio/mpeg">
         आपका ब्राउज़र ऑडियो तत्व का समर्थन नहीं करता है।
     </audio>
@@ -123,11 +123,11 @@
         const muteIconPath = document.getElementById('muteIconPath');
         const backgroundMusic = document.getElementById('backgroundMusic');
 
-        // SVG Paths for Mute and Unmute Icons
-        const muteIcon = "M12 4.44L9.94 6.5L12 8.56V4.44M3 9v6h4l5 5V4L7 9H3z"; // Mute Icon
-        const unmuteIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Unmute Icon
+        // SVG Paths for Unmute and Mute Icons
+        const unmuteIcon = "M3 9v6h4l5 5V4l-5 5H3z"; // Unmute Icon (speaker without a slash)
+        const muteIcon = "M12 4.44L9.94 6.5L12 8.56V4.44 M3 9v6h4l5 5V4L7 9H3z"; // Mute Icon (speaker with a slash)
 
-        // Set initial icon to represent current state (unmuted)
+        // Set initial icon to represent the current state (unmuted)
         muteIconPath.setAttribute('d', unmuteIcon);
 
         // Flag to check if Saturday is simulated
@@ -164,9 +164,11 @@
         }
 
         function playMusicOnce() {
-            // Set the starting time to 4.5 seconds
-            backgroundMusic.currentTime = 4.5;
-            backgroundMusic.play().catch(error => {
+            console.log("playMusicOnce() called");
+            // Ensure the audio is ready before setting currentTime
+            backgroundMusic.play().then(() => {
+                backgroundMusic.currentTime = 4.5;
+            }).catch(error => {
                 console.log('Playback error:', error);
             });
         }
@@ -219,10 +221,12 @@
         // Mute/Unmute functionality
         muteButton.addEventListener('click', () => {
             if (backgroundMusic.muted) {
+                // If the music is currently muted, unmute it
                 backgroundMusic.muted = false;
                 // Change icon to unmute icon (music is playing)
                 muteIconPath.setAttribute('d', unmuteIcon);
             } else {
+                // If the music is currently playing, mute it
                 backgroundMusic.muted = true;
                 // Change icon to mute icon (music is not playing)
                 muteIconPath.setAttribute('d', muteIcon);

@@ -110,7 +110,7 @@
 
     <!-- Audio Element -->
     <audio id="backgroundMusic" loop preload="auto">
-        <source src="background.mp3" type="audio/mpeg">
+        <source src="your-music-file.mp3" type="audio/mpeg">
         आपका ब्राउज़र ऑडियो तत्व का समर्थन नहीं करता है।
     </audio>
 
@@ -176,12 +176,28 @@
             musicStarted = true;
 
             console.log("playMusicOnce() called");
-            backgroundMusic.muted = false; // Unmute the music
-            backgroundMusic.play().then(() => {
-                backgroundMusic.currentTime = 4.5;
-            }).catch(error => {
-                console.log('Playback error:', error);
-            });
+
+            // Wait for metadata to be loaded
+            backgroundMusic.addEventListener('loadedmetadata', () => {
+                backgroundMusic.currentTime = 4.5; // Set start time
+                backgroundMusic.muted = false;     // Unmute the music
+                backgroundMusic.play().catch(error => {
+                    console.log('Playback error:', error);
+                });
+            }, { once: true });
+
+            // Load the audio if not already loaded
+            if (backgroundMusic.readyState >= 1) {
+                // Metadata is already loaded
+                backgroundMusic.currentTime = 4.5; // Set start time
+                backgroundMusic.muted = false;     // Unmute the music
+                backgroundMusic.play().catch(error => {
+                    console.log('Playback error:', error);
+                });
+            } else {
+                // Load the audio
+                backgroundMusic.load();
+            }
         }
 
         function createFirework() {

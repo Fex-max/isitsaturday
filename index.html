@@ -114,8 +114,8 @@
     </audio>
 
     <script>
-        const today = 6;
-        const day = today.getDay(); // Use today's date
+        const today = new Date();
+        const day = 6; // Use today's date
         const message = document.querySelector('.message');
         const body = document.querySelector('body');
         const simulateButton = document.getElementById('simulateSaturday');

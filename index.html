@@ -109,13 +109,13 @@
 
     <!-- Audio Element -->
     <audio id="backgroundMusic" loop preload="auto">
-        <source src="background.mp3" type="audio/mpeg">
+        <source src="your-music-file.mp3" type="audio/mpeg">
         आपका ब्राउज़र ऑडियो तत्व का समर्थन नहीं करता है।
     </audio>
 
     <script>
         const today = new Date();
-        const day = 6; // Use today's date
+        const day = today.getDay(); // Use today's date
         const message = document.querySelector('.message');
         const body = document.querySelector('body');
         const simulateButton = document.getElementById('simulateSaturday');
@@ -133,6 +133,9 @@
 
         // Flag to check if Saturday is simulated
         let isSimulated = false;
+
+        // Flag to check if music has started
+        let musicStarted = false;
 
         // Check if today is Saturday
         if (day === 6) {
@@ -158,7 +161,8 @@
                 playMusicOnce();
             } else {
                 // Play music after user interaction on actual Saturday
-                document.body.addEventListener('click', playMusicOnce, { once: true });
+                // Include the muteButton in the event listener
+                document.addEventListener('click', playMusicOnce, { once: true });
             }
 
             // Repeated fireworks
@@ -170,8 +174,10 @@
         }
 
         function playMusicOnce() {
+            if (musicStarted) return; // Prevent multiple calls
+            musicStarted = true;
+
             console.log("playMusicOnce() called");
-            // Ensure the audio is ready before setting currentTime
             backgroundMusic.play().then(() => {
                 backgroundMusic.currentTime = 4.5;
             }).catch(error => {
@@ -226,6 +232,10 @@
 
         // Mute/Unmute functionality
         muteButton.addEventListener('click', () => {
+            if (!musicStarted) {
+                playMusicOnce();
+            }
+
             if (backgroundMusic.muted) {
                 // If the music is currently muted, unmute it
                 backgroundMusic.muted = false;

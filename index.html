@@ -141,11 +141,11 @@
 
         // Check if today is Saturday
         if (day === 6) {
-            message.innerText = "हाँ, शनिवार है!";
+            message.innerText = "शनिवार है!!";
             simulateButton.style.display = 'none';
             showSaturday(); // Start the Saturday celebration
         } else {
-            message.innerText = "नहीं, शनिवार नहीं है।";
+            message.innerText = "शनिवार नहीं है :(";
             simulateButton.style.display = 'block'; // Show the button to simulate Saturday
             // Hide the mute button since it's not Saturday
             muteButton.style.display = 'none';
@@ -213,7 +213,7 @@
 
         // Simulate Saturday
         function simulateSaturday() {
-            message.innerText = "हाँ, शनिवार है!";
+            message.innerText = "शनिवार है!!";
             simulateButton.style.display = 'none'; // Hide the button after switching to Saturday mode
             isSimulated = true; // Set the flag to indicate Saturday is simulated
             showSaturday();

@@ -100,7 +100,6 @@
     <h1 class="message"></h1>
     <div class="fireworks"></div>
     <button id="simulateSaturday" style="display: none;" onclick="simulateSaturday()">शनिवार आज़माएं</button>
-    <button id="shareButton">इस साइट को साझा करें</button>
 
     <!-- Mute/Unmute Icon -->
     <svg id="muteButton" class="mute-icon" viewBox="0 0 24 24" aria-label="Mute/Unmute" role="button" tabindex="0">
@@ -120,7 +119,6 @@
         const message = document.querySelector('.message');
         const body = document.querySelector('body');
         const simulateButton = document.getElementById('simulateSaturday');
-        const shareButton = document.getElementById('shareButton');
         const muteButton = document.getElementById('muteButton');
         const muteIconPath = document.getElementById('muteIconPath');
         const backgroundMusic = document.getElementById('backgroundMusic');
@@ -220,30 +218,6 @@
             isSimulated = true; // Set the flag to indicate Saturday is simulated
             showSaturday();
         }
-
-        // Share functionality with Google Analytics event tracking
-        shareButton.addEventListener('click', () => {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'क्या शनिवार है?',
-                    text: 'देखें कि आज शनिवार है या नहीं!',
-                    url: window.location.href
-                })
-                .then(() => {
-                    console.log('Successful share');
-                    // Send event to Google Analytics
-                    gtag('event', 'share_click', {
-                        'event_category': 'engagement',
-                        'event_label': 'Share Button',
-                        'value': 1
-                    });
-                })
-                .catch((error) => console.log('Error sharing:', error));
-            } else {
-                // Fallback for browsers that do not support the Web Share API
-                alert('आपका ब्राउज़र इस फ़ंक्शन का समर्थन नहीं करता है। कृपया URL को मैन्युअल रूप से कॉपी करें।');
-            }
-        });
 
         // Mute/Unmute functionality
         muteButton.addEventListener('click', () => {
